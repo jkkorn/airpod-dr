@@ -1,0 +1,1 @@
+/Users/jonathan/conductor/repos/airpod-dr/.claude/skills/gstack/open-gstack-browser/SKILL.md

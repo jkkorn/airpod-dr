@@ -1,0 +1,1 @@
+/Users/jonathan/conductor/repos/airpod-dr/.claude/skills/gstack/pair-agent/SKILL.md
