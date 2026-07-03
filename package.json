@@ -4,6 +4,12 @@
   "version": "0.1.0",
   "type": "module",
   "description": "Open-source acoustic survival check for damaged or secondhand AirPods. No install, no account, no microphone.",
+  "license": "MIT",
+  "homepage": "https://jkkorn.github.io/airpod-dr/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jkkorn/airpod-dr.git"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
