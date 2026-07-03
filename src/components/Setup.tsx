@@ -11,7 +11,7 @@ export function Setup(props: { step: number; total: number; onNext: () => void }
       step={props.step}
       total={props.total}
       title="First, let's make sure we're testing the right thing"
-      subtitle="This runs entirely on your device. No sign-in, no upload, no microphone. It plays sounds and you tell it what you heard."
+      subtitle="This runs entirely on your device. No sign-in, no upload, no microphone. Whether your pair got wet or you're sizing up a secondhand pair before you pay, it plays sounds and you tell it what you heard."
       onNext={props.onNext}
       nextLabel="I heard the tone — start"
     >
