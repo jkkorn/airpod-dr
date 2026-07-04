@@ -41,6 +41,13 @@ export default function App() {
   return (
     <main className="app">
       <header className="masthead">
+        <svg className="mark" viewBox="0 0 44 44" fill="none" aria-hidden="true">
+          <rect x="4" y="17" width="4" height="10" rx="2" fill="currentColor" opacity="0.45" />
+          <rect x="12" y="12" width="4" height="20" rx="2" fill="currentColor" opacity="0.7" />
+          <rect x="20" y="7" width="4" height="30" rx="2" fill="currentColor" />
+          <rect x="28" y="12" width="4" height="20" rx="2" fill="currentColor" opacity="0.7" />
+          <rect x="36" y="17" width="4" height="10" rx="2" fill="currentColor" opacity="0.45" />
+        </svg>
         <h1>AirPod Survival Check</h1>
         <p className="tagline">Dropped it? Washed it? Buying it used? Find out what still works.</p>
       </header>
