@@ -10,6 +10,14 @@ const STATUS_TONE: Record<BudVerdict['status'], string> = {
   silent: 'bad',
 }
 
+const STATUS_EMOJI: Record<BudVerdict['status'], string> = {
+  pass: '✅',
+  weak: '⚠️',
+  rattle: '⚠️',
+  inconclusive: '⚠️',
+  silent: '❌',
+}
+
 function VerdictCard({ v }: { v: BudVerdict }) {
   return (
     <article className={`verdict tone-${STATUS_TONE[v.status]}`}>
@@ -27,15 +35,17 @@ function VerdictCard({ v }: { v: BudVerdict }) {
 }
 
 function buildShareText(s: Summary): string {
-  const line = (v: BudVerdict) => `${v.bud === 'left' ? 'Left' : 'Right'}: ${v.headline} (${confidenceLabel(v.confidence).toLowerCase()})`
+  const line = (v: BudVerdict) => `${STATUS_EMOJI[v.status]} ${v.headline}`
   return [
-    'AirPod Survival Check',
+    '🎧 AirPod Survival Check',
+    '',
     s.overall,
     '',
     line(s.left),
     line(s.right),
     '',
-    'Tested with an open-source acoustic check (no telemetry, browser-only).',
+    'Check yours — free, no app, no login:',
+    'https://jkkorn.github.io/airpod-dr/',
   ].join('\n')
 }
 
