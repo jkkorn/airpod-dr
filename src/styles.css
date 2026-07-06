@@ -160,3 +160,57 @@ body {
 .actions .btn { flex: 1; }
 
 .footer { text-align: center; color: var(--text-faint); font-size: 0.78rem; padding: 24px 8px 0; }
+
+/* Home chooser */
+.home { display: flex; flex-direction: column; gap: 14px; }
+.tool {
+  appearance: none; text-align: left; cursor: pointer;
+  display: flex; flex-direction: column; gap: 6px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 20px; box-shadow: var(--shadow-md); font-family: inherit; color: var(--text);
+  transition: transform 0.06s ease, border-color 0.15s;
+}
+.tool:active { transform: scale(0.99); }
+.tool-emoji { font-size: 1.7rem; }
+.tool-title { font-size: 1.12rem; font-weight: 700; letter-spacing: -0.01em; }
+.tool-desc { color: var(--text-muted); font-size: 0.92rem; }
+
+.btn-link {
+  appearance: none; background: none; border: none; color: var(--text-muted);
+  font-size: 0.9rem; font-weight: 600; cursor: pointer; padding: 4px 2px; font-family: inherit;
+}
+.back-home { display: inline-block; margin-bottom: 12px; }
+
+/* Battery: model grid */
+.model-grid { display: flex; flex-direction: column; gap: 10px; }
+.model-btn { display: flex; justify-content: space-between; align-items: center; text-align: left; gap: 10px; }
+.model-name { font-weight: 650; }
+.model-base { color: var(--text-faint); font-size: 0.85rem; white-space: nowrap; }
+
+/* Battery: timer */
+.timer-clock {
+  font-size: 2.4rem; font-weight: 700; letter-spacing: -0.02em; text-align: center;
+  font-variant-numeric: tabular-nums; color: var(--accent);
+}
+.manual { margin-top: 6px; }
+.manual summary { cursor: pointer; color: var(--accent); font-weight: 600; padding: 6px 0; }
+.field-row { display: flex; gap: 12px; margin: 12px 0; }
+.field { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+.field span { font-size: 0.82rem; color: var(--text-muted); font-weight: 600; }
+.field input {
+  appearance: none; border: 1px solid var(--line-strong); border-radius: var(--radius-sm);
+  padding: 12px 14px; font-size: 1.1rem; font-family: inherit; background: var(--surface);
+  color: var(--text); width: 100%;
+}
+
+/* Battery: result */
+.health {
+  border: 1px solid var(--line); border-radius: var(--radius); padding: 22px 18px; text-align: center;
+  background: var(--surface-2); margin-bottom: 4px;
+}
+.health-pct { font-size: 3.2rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1; }
+.health-headline { font-size: 1.1rem; font-weight: 700; margin-top: 6px; }
+.health-detail { color: var(--text-muted); font-size: 0.95rem; margin: 10px 0 0; }
+.health.tone-good .health-pct { color: var(--good); }
+.health.tone-warn .health-pct { color: var(--warn); }
+.health.tone-bad .health-pct { color: var(--bad); }

@@ -33,7 +33,12 @@ everything on-screen so you can read results on the phone.
 - **Test 2 (reroute):** Log recorded "stayed on AirPods"; captured RMS was only **0.0131** (faint), which objectively corroborates the sound stayed in the sealed in-ear AirPods, not the phone speaker. A brief audible route-blip at mic-open is expected and settles.
 - **Test 3 (capture):** **48 kHz full-band** capture while playing (track rate 24 kHz) — **no HFP collapse**. Peak RMS 0.0131, but the bud was IN-EAR, so the phone mic mostly heard ambient, not the bud. Needs a re-run with the bud held to the phone.
 
-**Revised conclusion (pending confirmation):** the design's predictions (setSinkId unsupported, reroute to speaker, 16 kHz collapse) appear to be **outdated** — they matched older iOS. On iOS 18.7, full-band record-while-playing works and output stays on the AirPods, so **Approach B may be buildable as a web app**, not native. Re-run spike v2 with the bud held to the phone mic (Test 3) to confirm the driver is actually captured full-band before committing to the web path.
+### Second run (spike v2, held-to-phone)
+
+- **Test 2 (routing):** avg RMS ~0.001 at 48 kHz — reconfirmed: output stays on the AirPods, full-band, no HFP collapse. Capture was never the blocker.
+- **Test 3 (held to phone):** captured near-silence (peak 0.003; bands low -112 / mid -120 / **high -171 dB**). Cause, diagnosed on the device: **iOS ear-detection routes the audio to whichever bud is in the ear**, so the bud held out to the phone mic stays silent. With both buds out, ear-detection pauses playback or routes to the phone speaker instead. There is no consumer-friendly way to force a known sweep out of one held bud and record it.
+
+**Final verdict — Approach B (measured fingerprint) is RETIRED.** The design's *capture* fears were outdated (48 kHz full-band works, `setSinkId` supported), but a deeper physical wall stands: a phone mic cannot hear a sealed in-ear bud, and ear-detection won't let you route a sweep to a single out-of-ear bud. The one geometry that works — the bud's **own inward mic in-ear** (Apple's Ear Tip Fit Test trick) — is locked behind the HFP narrowband profile with no third-party API. **Native does not rescue this**; it is routing physics, not an API tier. The product's value stays in **Approach A** (acoustic survival check, shipped) plus the **battery-health estimate**. The `spike/ios/` scaffold is kept only as a record; do not build on it.
 
 ## Part 2 — Native iOS scaffold (only if Part 1 confirms native is required)
 
