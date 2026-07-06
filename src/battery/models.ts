@@ -84,3 +84,41 @@ export function formatHours(h: number): string {
   if (min === 0) return `${hrs} h`
   return `${hrs} h ${min} min`
 }
+
+// "Is my degradation normal for its age?" — compared against a MODELED typical
+// curve, not live crowd data (yet). Grounded in how AirPods cells age: ~80%
+// capacity by roughly 300-500 real cycles, i.e. about 2-3 years of normal use,
+// accelerating after. When the app has traffic, swap typicalPct for a live
+// aggregate; the comparison UI and copy stay the same.
+export interface AgeBucket {
+  id: string
+  label: string
+  typicalPct: number
+}
+
+export const AGE_BUCKETS: AgeBucket[] = [
+  { id: 'lt1', label: 'Under a year', typicalPct: 95 },
+  { id: '1to2', label: '1 to 2 years', typicalPct: 86 },
+  { id: '2to3', label: '2 to 3 years', typicalPct: 78 },
+  { id: 'gt3', label: '3+ years', typicalPct: 68 },
+]
+
+export interface AgeCompare {
+  tone: 'good' | 'warn' | 'bad'
+  text: string
+}
+
+export function compareToTypical(userPct: number, bucket: AgeBucket): AgeCompare {
+  const diff = userPct - bucket.typicalPct
+  const typical = `around ${bucket.typicalPct}%`
+  if (diff >= 8) {
+    return { tone: 'good', text: `Ahead of the curve. Most pairs this age sit ${typical}, and yours is above that.` }
+  }
+  if (diff >= -8) {
+    return { tone: 'good', text: `Right on track. ${bucket.typicalPct}% is about typical for a pair this age.` }
+  }
+  if (diff >= -18) {
+    return { tone: 'warn', text: `A little below average. Most pairs this age are ${typical}.` }
+  }
+  return { tone: 'bad', text: `Worn faster than typical. Most pairs this age are still ${typical}.` }
+}
