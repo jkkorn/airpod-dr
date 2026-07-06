@@ -26,16 +26,14 @@ everything on-screen so you can read results on the phone.
 - **If the prediction is wrong** (output stays on AirPods, full-band capture): stop and
   reconsider, because a web-only Approach B just became possible and that is a much cheaper path.
 
-Record the actual outcome here when you run it:
+### Observed run (first real device)
 
-```
-Date run:
-Device / iOS version:
-Test 1 (setSinkId):
-Test 2 (reroute observed?):
-Test 3 (capture sample rate / peak RMS):
-Conclusion:
-```
+- **Device:** iPhone, **iOS 18.7 / Safari 26.5**
+- **Test 1 (setSinkId):** `setSinkId` on `<audio>` = **true** (AudioContext = false). Output control IS available — contradicts the design's assumption.
+- **Test 2 (reroute):** Log recorded "stayed on AirPods"; captured RMS was only **0.0131** (faint), which objectively corroborates the sound stayed in the sealed in-ear AirPods, not the phone speaker. A brief audible route-blip at mic-open is expected and settles.
+- **Test 3 (capture):** **48 kHz full-band** capture while playing (track rate 24 kHz) — **no HFP collapse**. Peak RMS 0.0131, but the bud was IN-EAR, so the phone mic mostly heard ambient, not the bud. Needs a re-run with the bud held to the phone.
+
+**Revised conclusion (pending confirmation):** the design's predictions (setSinkId unsupported, reroute to speaker, 16 kHz collapse) appear to be **outdated** — they matched older iOS. On iOS 18.7, full-band record-while-playing works and output stays on the AirPods, so **Approach B may be buildable as a web app**, not native. Re-run spike v2 with the bud held to the phone mic (Test 3) to confirm the driver is actually captured full-band before committing to the web path.
 
 ## Part 2 — Native iOS scaffold (only if Part 1 confirms native is required)
 
