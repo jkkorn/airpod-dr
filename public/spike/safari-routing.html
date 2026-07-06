@@ -51,9 +51,9 @@
     </p>
 
     <div class="card">
-      <span class="step">Test 1</span>
+      <span class="step">Test 1 · no microphone needed</span>
       <h2>Output device control</h2>
-      <p>Does this browser let a page choose the audio output and list your AirPods?</p>
+      <p>Does this browser let a page choose which device audio plays out of? (This one does not touch the mic.)</p>
       <button id="t1">Check output control</button>
       <span class="badge" id="b1">Not run yet.</span>
     </div>
@@ -71,12 +71,14 @@
     </div>
 
     <div class="card">
-      <span class="step">Test 3 · ONE AirPod OUT, held to the phone mic</span>
+      <span class="step">Test 3 · ONE AirPod OUT, ON THE PHONE MIC</span>
       <h2>Can the phone mic actually record the bud?</h2>
       <p>
-        Take one AirPod out and hold it right against the bottom mic of the phone. Tap. It plays a
-        20&nbsp;Hz&rarr;16&nbsp;kHz sweep to that bud and records it, then reports the capture rate
-        and how much low / mid / high energy the mic picked up. Highs present = the driver and the
+        Take ONE AirPod out of your ear. Press its speaker directly onto the
+        <strong>bottom edge of the phone</strong>, right by the charging port where the mic is.
+        <strong>Not near your ear</strong> — the two have to touch so the phone mic can hear the bud.
+        Tap. It plays a 20&nbsp;Hz&rarr;16&nbsp;kHz sweep to that bud and records it, then reports the
+        capture rate and the low / mid / high energy captured. Highs present = the driver and the
         recording chain both work full-band.
       </p>
       <button id="t3">Play sweep + record (3s)</button>
@@ -180,15 +182,14 @@
         const onEl = 'setSinkId' in HTMLMediaElement.prototype
         const onCtx = typeof AudioContext !== 'undefined' && 'setSinkId' in AudioContext.prototype
         log('[' + stamp() + '] setSinkId <audio>=' + onEl + ' AudioContext=' + onCtx)
-        let outs = []
+        // Deliberately no getUserMedia here: checking output support must not prompt for the mic.
+        let count = 0
         try {
-          await navigator.mediaDevices.getUserMedia({ audio: true }) // unlock device labels
           const devs = await navigator.mediaDevices.enumerateDevices()
-          outs = devs.filter((d) => d.kind === 'audiooutput')
-          outs.forEach((d) => log('  output: ' + (d.label || '(unlabeled)')))
+          count = devs.filter((d) => d.kind === 'audiooutput').length
         } catch (e) { log('  enumerate failed: ' + e.name) }
         if (onEl || onCtx) {
-          badge('b1', 'ok', 'Output control IS supported (setSinkId on <audio>). ' + outs.length + ' output device(s) visible.')
+          badge('b1', 'ok', 'Output control IS supported (setSinkId on <audio>). No mic prompt. ' + count + ' output device(s) listed without permission.')
         } else {
           badge('b1', 'bad', 'No setSinkId. Page cannot pin output to the AirPods.')
         }
