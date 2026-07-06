@@ -3,232 +3,242 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="theme-color" content="#0f1115" />
-    <title>Spike: iOS Safari audio routing</title>
+    <meta name="theme-color" content="#f7f9fd" />
+    <title>Spike: iOS Safari audio routing (v2)</title>
     <style>
-      :root { color-scheme: dark; }
+      :root { color-scheme: light; }
       * { box-sizing: border-box; }
       body {
-        margin: 0; background: #0f1115; color: #eef1f5;
+        margin: 0; background: #f4f6fb; color: #121722;
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        line-height: 1.5; padding: 20px 16px calc(40px + env(safe-area-inset-bottom));
+        line-height: 1.5; padding: 20px 16px calc(48px + env(safe-area-inset-bottom));
         max-width: 620px; margin-inline: auto;
       }
-      h1 { font-size: 1.3rem; }
-      h2 { font-size: 1.05rem; margin-top: 26px; }
-      p, li { color: #c7cdd6; font-size: 0.95rem; }
-      .card { background: #171a21; border: 1px solid #2a313c; border-radius: 12px; padding: 14px; margin: 12px 0; }
+      h1 { font-size: 1.3rem; letter-spacing: -0.02em; }
+      h2 { font-size: 1.05rem; margin: 0 0 4px; }
+      p, li { color: #4c566a; font-size: 0.95rem; }
+      .card { background: #fff; border: 1px solid #e7eaf1; border-radius: 14px; padding: 16px; margin: 14px 0; box-shadow: 0 2px 8px rgba(18,30,55,0.05); }
+      .step { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: #8a93a6; }
       button {
-        appearance: none; border: 1px solid #5b8cff; background: #171a21; color: #5b8cff;
-        font-size: 0.95rem; font-weight: 600; padding: 11px 15px; border-radius: 10px;
-        margin: 6px 6px 0 0; cursor: pointer; touch-action: manipulation;
+        appearance: none; border: 1px solid #2f6bff; background: #2f6bff; color: #fff;
+        font-size: 0.95rem; font-weight: 650; padding: 12px 16px; border-radius: 11px;
+        margin: 8px 6px 0 0; cursor: pointer; touch-action: manipulation;
       }
-      button.primary { background: #5b8cff; color: #0b1020; }
-      button:disabled { opacity: 0.45; }
+      button.ghost { background: #eef2fe; color: #2f6bff; border-color: transparent; }
+      button:disabled { opacity: 0.5; }
+      .badge {
+        display: block; margin-top: 12px; padding: 10px 12px; border-radius: 10px;
+        font-weight: 650; font-size: 0.92rem; background: #f0f2f7; color: #58627a;
+      }
+      .badge.ok { background: rgba(15,157,107,0.12); color: #0b7a53; }
+      .badge.warn { background: rgba(207,134,0,0.14); color: #9a6600; }
+      .badge.bad { background: rgba(224,65,63,0.12); color: #c0322f; }
+      .num { font-variant-numeric: tabular-nums; font-weight: 700; }
       #log {
-        background: #0b0d12; border: 1px solid #2a313c; border-radius: 10px; padding: 12px;
-        font-family: ui-monospace, Menlo, monospace; font-size: 0.8rem; white-space: pre-wrap;
-        word-break: break-word; min-height: 120px; margin-top: 14px;
+        background: #0b0d12; color: #d7dde7; border-radius: 10px; padding: 12px;
+        font-family: ui-monospace, Menlo, monospace; font-size: 0.78rem; white-space: pre-wrap;
+        word-break: break-word; min-height: 90px; margin-top: 16px;
       }
-      .verdict { font-weight: 700; }
-      .ok { color: #3ecf8e; } .warn { color: #f4b740; } .bad { color: #ef5f6b; }
+      details summary { cursor: pointer; color: #2f6bff; font-weight: 600; margin-top: 8px; }
     </style>
   </head>
   <body>
-    <h1>Spike: does iOS Safari let us measure AirPods?</h1>
+    <h1>Spike v2: can the browser measure AirPods on iOS?</h1>
     <p>
-      Approach B (the measured per-bud frequency-response fingerprint) needs to play a sweep to the
-      AirPods <em>while</em> recording. This page tests whether a browser can do that on iOS, or
-      whether the microphone forces audio off the AirPods. Run it in <strong>Safari on your iPhone,
-      with AirPods connected</strong>. Read the log at the bottom.
+      Early data suggests current iOS Safari lifted the limits the design assumed. This version
+      decides each question with a <strong>measured verdict</strong> instead of asking your ear.
+      Run it in Safari on your iPhone. Do the tests in order and read the colored verdicts.
     </p>
 
     <div class="card">
-      <h2>1. setSinkId (output device selection)</h2>
-      <p>If unsupported, a web page cannot even choose to keep output on the AirPods.</p>
-      <button id="t1" class="primary">Check setSinkId support</button>
+      <span class="step">Test 1</span>
+      <h2>Output device control</h2>
+      <p>Does this browser let a page choose the audio output and list your AirPods?</p>
+      <button id="t1">Check output control</button>
+      <span class="badge" id="b1">Not run yet.</span>
     </div>
 
     <div class="card">
-      <h2>2. Does opening the mic move the sound?</h2>
+      <span class="step">Test 2 · AirPods IN your ears</span>
+      <h2>Does opening the mic kick sound off the AirPods?</h2>
       <p>
-        Tap <em>Play tone</em>. You should hear a steady tone in your AirPods. Then tap
-        <em>Open microphone</em> and <strong>listen</strong>: does the tone jump to the phone
-        speaker? Record what you heard.
+        Put both AirPods in. Tap Start. It plays a loud tone and measures how loud the
+        <em>phone</em> mic hears it for 4 seconds. <strong>Quiet</strong> = sound stayed sealed in
+        your AirPods (good). <strong>Loud</strong> = it jumped to the phone speaker.
       </p>
-      <button id="t2play">Play tone to AirPods</button>
-      <button id="t2mic">Open microphone</button>
-      <br />
-      <button id="t2moved" class="warn-btn" disabled>It moved to the phone speaker</button>
-      <button id="t2stayed" disabled>It stayed in my AirPods</button>
-      <button id="t2stop">Stop tone</button>
+      <button id="t2">Start routing test</button>
+      <span class="badge" id="b2">Not run yet.</span>
     </div>
 
     <div class="card">
-      <h2>3. Loopback capture (sample rate is the tell)</h2>
+      <span class="step">Test 3 · ONE AirPod OUT, held to the phone mic</span>
+      <h2>Can the phone mic actually record the bud?</h2>
       <p>
-        Plays a sweep for 3s while recording from the microphone, then reports the captured sample
-        rate and level. <strong>16&nbsp;kHz</strong> means iOS collapsed to the telephony (HFP) path;
-        <strong>44.1/48&nbsp;kHz</strong> means full-band capture survived.
+        Take one AirPod out and hold it right against the bottom mic of the phone. Tap. It plays a
+        20&nbsp;Hz&rarr;16&nbsp;kHz sweep to that bud and records it, then reports the capture rate
+        and how much low / mid / high energy the mic picked up. Highs present = the driver and the
+        recording chain both work full-band.
       </p>
-      <button id="t3" class="primary">Play sweep + record 3s</button>
+      <button id="t3">Play sweep + record (3s)</button>
+      <span class="badge" id="b3">Not run yet.</span>
     </div>
 
-    <h2>Log</h2>
-    <div id="log">Waiting…</div>
+    <details>
+      <summary>Raw log</summary>
+      <div id="log">Waiting…</div>
+    </details>
 
     <script>
       const logEl = document.getElementById('log')
       let first = true
-      function log(msg, cls) {
+      function log(m) {
         if (first) { logEl.textContent = ''; first = false }
-        const line = document.createElement('div')
-        if (cls) line.className = cls
-        line.textContent = msg
-        logEl.appendChild(line)
+        const d = document.createElement('div'); d.textContent = m; logEl.appendChild(d)
       }
-      function stamp() {
-        const d = new Date()
-        return d.toTimeString().slice(0, 8)
+      const stamp = () => new Date().toTimeString().slice(0, 8)
+      function badge(id, cls, text) {
+        const el = document.getElementById(id)
+        el.className = 'badge ' + cls
+        el.textContent = text
       }
 
       let ctx = null
       function getCtx() {
-        if (!ctx) {
-          const C = window.AudioContext || window.webkitAudioContext
-          ctx = new C()
-        }
+        if (!ctx) { const C = window.AudioContext || window.webkitAudioContext; ctx = new C() }
         return ctx
       }
-      async function unlock() {
-        const c = getCtx()
+      async function unlock() { const c = getCtx(); if (c.state === 'suspended') await c.resume(); return c }
+
+      const MIC = { echoCancellation: false, autoGainControl: false, noiseSuppression: false }
+
+      // measure average + peak RMS from a live mic stream over `ms`
+      async function measureMic(ms) {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: MIC })
+        const track = stream.getAudioTracks()[0]
+        const s = track.getSettings ? track.getSettings() : {}
+        const c = new (window.AudioContext || window.webkitAudioContext)()
         if (c.state === 'suspended') await c.resume()
-        return c
-      }
-
-      // --- Test 1: setSinkId ---
-      document.getElementById('t1').onclick = () => {
-        const onEl = 'setSinkId' in HTMLMediaElement.prototype
-        const onCtx = typeof AudioContext !== 'undefined' && 'setSinkId' in AudioContext.prototype
-        log('[' + stamp() + '] setSinkId on <audio>: ' + onEl, onEl ? 'ok' : 'bad')
-        log('setSinkId on AudioContext: ' + onCtx, onCtx ? 'ok' : 'bad')
-        if (!onEl && !onCtx) {
-          log('VERDICT: setSinkId unsupported here. A web page cannot pin output to the AirPods.', 'bad')
-        } else {
-          log('VERDICT: setSinkId available. Output routing may be controllable.', 'ok')
-        }
-      }
-
-      // --- Test 2: reroute observation ---
-      let toneNodes = null
-      document.getElementById('t2play').onclick = async () => {
-        await unlock()
-        stopTone()
-        const c = getCtx()
-        const osc = c.createOscillator()
-        const gain = c.createGain()
-        osc.type = 'sine'; osc.frequency.value = 1000
-        gain.gain.setValueAtTime(0, c.currentTime)
-        gain.gain.linearRampToValueAtTime(0.15, c.currentTime + 0.03)
-        osc.connect(gain).connect(c.destination)
-        osc.start()
-        toneNodes = { osc, gain }
-        log('[' + stamp() + '] Tone playing at 1 kHz. Confirm you hear it in the AirPods.')
-      }
-      function stopTone() {
-        if (!toneNodes) return
-        try { toneNodes.osc.stop() } catch (e) {}
-        toneNodes = null
-      }
-      document.getElementById('t2stop').onclick = () => { stopTone(); log('Tone stopped.') }
-      document.getElementById('t2mic').onclick = async () => {
-        log('[' + stamp() + '] Requesting microphone… (keep listening to the tone)')
-        try {
-          const stream = await navigator.mediaDevices.getUserMedia({
-            audio: { echoCancellation: false, autoGainControl: false, noiseSuppression: false },
-          })
-          const track = stream.getAudioTracks()[0]
-          const s = track.getSettings ? track.getSettings() : {}
-          log('Mic granted. label="' + (track.label || 'n/a') + '"')
-          log('Track settings: sampleRate=' + (s.sampleRate ?? '?') + ', channels=' + (s.channelCount ?? '?'))
-          log('AudioContext.sampleRate=' + getCtx().sampleRate)
-          log('Now: did the TONE move to the phone speaker? Tap an answer below.', 'warn')
-          document.getElementById('t2moved').disabled = false
-          document.getElementById('t2stayed').disabled = false
-          // keep the stream a moment so the route change is audible, then release
-          setTimeout(() => track.stop(), 4000)
-        } catch (e) {
-          log('getUserMedia FAILED: ' + e.name + ' ' + e.message, 'bad')
-        }
-      }
-      document.getElementById('t2moved').onclick = () =>
-        log('OBSERVED: output moved to phone speaker on mic open -> web loopback to AirPods is NOT possible. Approach B must be native.', 'bad')
-      document.getElementById('t2stayed').onclick = () =>
-        log('OBSERVED: output stayed on AirPods with mic open -> investigate further, web loopback may be viable.', 'ok')
-
-      // --- Test 3: loopback capture ---
-      document.getElementById('t3').onclick = async (ev) => {
-        const btn = ev.target
-        btn.disabled = true
-        try {
-          await unlock()
-          const stream = await navigator.mediaDevices.getUserMedia({
-            audio: { echoCancellation: false, autoGainControl: false, noiseSuppression: false },
-          })
-          const track = stream.getAudioTracks()[0]
-          const s = track.getSettings ? track.getSettings() : {}
-          const capCtx = new (window.AudioContext || window.webkitAudioContext)()
-          if (capCtx.state === 'suspended') await capCtx.resume()
-          const src = capCtx.createMediaStreamSource(stream)
-          const analyser = capCtx.createAnalyser()
-          analyser.fftSize = 2048
-          src.connect(analyser)
-          const buf = new Float32Array(analyser.fftSize)
-
-          log('[' + stamp() + '] Recording. capture sampleRate=' + capCtx.sampleRate +
-            ', track.sampleRate=' + (s.sampleRate ?? '?'))
-          if (capCtx.sampleRate <= 16000) {
-            log('=> 16 kHz path: iOS collapsed to HFP/telephony. Full-band measurement impossible in-browser.', 'bad')
-          } else {
-            log('=> ' + capCtx.sampleRate + ' Hz capture: full-band survived (unexpected on iOS Safari).', 'ok')
-          }
-
-          // play sweep to output
-          const osc = capCtx.createOscillator()
-          const g = capCtx.createGain()
-          osc.type = 'sine'
-          const now = capCtx.currentTime
-          osc.frequency.setValueAtTime(200, now)
-          osc.frequency.exponentialRampToValueAtTime(8000, now + 3)
-          g.gain.setValueAtTime(0.0001, now)
-          g.gain.exponentialRampToValueAtTime(0.2, now + 0.05)
-          osc.connect(g).connect(capCtx.destination)
-          osc.start(now); osc.stop(now + 3)
-
-          let peak = 0
-          const t0 = performance.now()
+        const src = c.createMediaStreamSource(stream)
+        const an = c.createAnalyser(); an.fftSize = 2048; src.connect(an)
+        const buf = new Float32Array(an.fftSize)
+        let peak = 0, sumAll = 0, n = 0
+        const t0 = performance.now()
+        return new Promise((resolve) => {
           const tick = () => {
-            analyser.getFloatTimeDomainData(buf)
+            an.getFloatTimeDomainData(buf)
             let sum = 0
             for (let i = 0; i < buf.length; i++) sum += buf[i] * buf[i]
             const rms = Math.sqrt(sum / buf.length)
             if (rms > peak) peak = rms
-            if (performance.now() - t0 < 3200) {
-              requestAnimationFrame(tick)
-            } else {
-              log('Peak captured RMS = ' + peak.toFixed(4) +
-                (peak > 0.01 ? ' (mic heard signal)' : ' (little/no signal captured)'),
-                peak > 0.01 ? 'warn' : 'bad')
-              log('Note: on iOS the captured signal is likely the PHONE speaker playing the sweep, not the AirPod.')
-              track.stop(); capCtx.close()
-              btn.disabled = false
+            sumAll += rms; n++
+            if (performance.now() - t0 < ms) requestAnimationFrame(tick)
+            else {
+              // band levels from frequency data
+              const freq = new Float32Array(an.frequencyBinCount)
+              an.getFloatFrequencyData(freq)
+              const nyq = c.sampleRate / 2
+              const band = (lo, hi) => {
+                let a = 0, k = 0
+                for (let i = 0; i < freq.length; i++) {
+                  const f = (i / freq.length) * nyq
+                  if (f >= lo && f < hi) { a += freq[i]; k++ }
+                }
+                return k ? Math.round(a / k) : -Infinity
+              }
+              const bands = { low: band(20, 500), mid: band(500, 4000), high: band(4000, 16000) }
+              track.stop(); c.close()
+              resolve({ avg: sumAll / Math.max(1, n), peak, sampleRate: c.sampleRate, trackRate: s.sampleRate, bands })
             }
           }
           requestAnimationFrame(tick)
-        } catch (e) {
-          log('Test 3 FAILED: ' + e.name + ' ' + e.message, 'bad')
-          btn.disabled = false
+        })
+      }
+
+      function playTone(freq, ms) {
+        const c = getCtx()
+        const o = c.createOscillator(), g = c.createGain()
+        o.type = 'sine'; o.frequency.value = freq
+        g.gain.setValueAtTime(0, c.currentTime)
+        g.gain.linearRampToValueAtTime(0.25, c.currentTime + 0.03)
+        o.connect(g).connect(c.destination); o.start()
+        setTimeout(() => { try { o.stop() } catch (e) {} }, ms)
+      }
+      function playSweep(ms) {
+        const c = getCtx()
+        const o = c.createOscillator(), g = c.createGain()
+        const now = c.currentTime, dur = ms / 1000
+        o.type = 'sine'
+        o.frequency.setValueAtTime(20, now)
+        o.frequency.exponentialRampToValueAtTime(16000, now + dur)
+        g.gain.setValueAtTime(0.0001, now)
+        g.gain.exponentialRampToValueAtTime(0.28, now + 0.05)
+        o.connect(g).connect(c.destination); o.start(now); o.stop(now + dur)
+      }
+
+      // Test 1
+      document.getElementById('t1').onclick = async () => {
+        const onEl = 'setSinkId' in HTMLMediaElement.prototype
+        const onCtx = typeof AudioContext !== 'undefined' && 'setSinkId' in AudioContext.prototype
+        log('[' + stamp() + '] setSinkId <audio>=' + onEl + ' AudioContext=' + onCtx)
+        let outs = []
+        try {
+          await navigator.mediaDevices.getUserMedia({ audio: true }) // unlock device labels
+          const devs = await navigator.mediaDevices.enumerateDevices()
+          outs = devs.filter((d) => d.kind === 'audiooutput')
+          outs.forEach((d) => log('  output: ' + (d.label || '(unlabeled)')))
+        } catch (e) { log('  enumerate failed: ' + e.name) }
+        if (onEl || onCtx) {
+          badge('b1', 'ok', 'Output control IS supported (setSinkId on <audio>). ' + outs.length + ' output device(s) visible.')
+        } else {
+          badge('b1', 'bad', 'No setSinkId. Page cannot pin output to the AirPods.')
         }
+      }
+
+      // Test 2 (in-ear routing)
+      document.getElementById('t2').onclick = async (e) => {
+        e.target.disabled = true
+        badge('b2', '', 'Playing tone and listening on the phone mic…')
+        try {
+          await unlock()
+          playTone(1000, 4200)
+          const r = await measureMic(4000)
+          log('[' + stamp() + '] routing avgRMS=' + r.avg.toFixed(4) + ' peak=' + r.peak.toFixed(4) + ' rate=' + r.sampleRate)
+          if (r.avg < 0.04) {
+            badge('b2', 'ok', 'STAYED on AirPods — phone mic stayed quiet (avg RMS ' + r.avg.toFixed(3) + '). Full-band record while playing: viable.')
+          } else if (r.avg < 0.12) {
+            badge('b2', 'warn', 'Borderline (avg RMS ' + r.avg.toFixed(3) + '). Some leakage; re-run in a quiet room to be sure.')
+          } else {
+            badge('b2', 'bad', 'JUMPED to phone speaker (avg RMS ' + r.avg.toFixed(3) + '). Web loopback would measure the phone, not the bud.')
+          }
+        } catch (err) { badge('b2', 'bad', 'Mic error: ' + err.name) }
+        e.target.disabled = false
+      }
+
+      // Test 3 (held-to-phone capture)
+      document.getElementById('t3').onclick = async (e) => {
+        e.target.disabled = true
+        badge('b3', '', 'Recording the sweep…')
+        try {
+          await unlock()
+          playSweep(3000)
+          const r = await measureMic(3200)
+          const b = r.bands
+          log('[' + stamp() + '] capture rate=' + r.sampleRate + ' trackRate=' + r.trackRate +
+            ' peak=' + r.peak.toFixed(4) + ' bands(dB) low=' + b.low + ' mid=' + b.mid + ' high=' + b.high)
+          const full = r.sampleRate >= 44000
+          const heard = r.peak > 0.02
+          const highs = b.high > b.low - 25 // highs not collapsed relative to lows
+          if (full && heard && highs) {
+            badge('b3', 'ok', 'Full-band capture at ' + r.sampleRate + ' Hz, bud clearly heard, highs present. Approach B on the web looks real.')
+          } else if (full && heard) {
+            badge('b3', 'warn', 'Captured at ' + r.sampleRate + ' Hz but highs look weak (low=' + b.low + ' high=' + b.high + ' dB). Bud may be muffled, or hold it closer.')
+          } else if (!heard) {
+            badge('b3', 'warn', 'Barely heard the bud (peak ' + r.peak.toFixed(3) + '). Hold the AirPod right on the phone mic and retry.')
+          } else {
+            badge('b3', 'bad', 'Capture rate ' + r.sampleRate + ' Hz — narrowband. Full-band measurement not available.')
+          }
+        } catch (err) { badge('b3', 'bad', 'Error: ' + err.name) }
+        e.target.disabled = false
       }
 
       log('Loaded. UA: ' + navigator.userAgent)
