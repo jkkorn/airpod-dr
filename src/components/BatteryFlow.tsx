@@ -1,5 +1,13 @@
 import { useEffect, useState } from 'react'
-import { AirPodsModel, MODELS, estimateHealth, formatHours } from '../battery/models'
+import {
+  AgeBucket,
+  AGE_BUCKETS,
+  AirPodsModel,
+  MODELS,
+  compareToTypical,
+  estimateHealth,
+  formatHours,
+} from '../battery/models'
 
 // A timed full-discharge is the only real signal available (AirPods expose no
 // health to any app, and iOS hides even the live % from web pages). So this is a
@@ -32,6 +40,7 @@ export function BatteryFlow() {
   const [stage, setStage] = useState<Stage>('model')
   const [model, setModel] = useState<AirPodsModel | null>(null)
   const [measuredHours, setMeasuredHours] = useState<number | null>(null)
+  const [ageBucket, setAgeBucket] = useState<AgeBucket | null>(null)
 
   const [start, setStart] = useState<number | null>(() => readStart())
   const [now, setNow] = useState<number>(() => Date.now())
@@ -85,6 +94,7 @@ export function BatteryFlow() {
   const restart = () => {
     setModel(null)
     setMeasuredHours(null)
+    setAgeBucket(null)
     setHoursStr('')
     setMinStr('')
     setStage('model')
@@ -168,6 +178,7 @@ export function BatteryFlow() {
 
   if (stage === 'result' && model && measuredHours !== null) {
     const h = estimateHealth(measuredHours, model)
+    const cmp = ageBucket ? compareToTypical(h.pct, ageBucket) : null
     return (
       <section className="shell">
         <h2 className="title">Battery estimate</h2>
@@ -175,6 +186,25 @@ export function BatteryFlow() {
           <div className="health-pct">{h.pct}%</div>
           <div className="health-headline">{h.headline}</div>
           <p className="health-detail">{h.detail}</p>
+        </div>
+
+        <div className="qcard">
+          <p className="q">How old are these?</p>
+          <div className="choices">
+            {AGE_BUCKETS.map((b) => (
+              <button
+                key={b.id}
+                className={'btn btn-choice' + (ageBucket?.id === b.id ? ' selected' : '')}
+                onClick={() => setAgeBucket(b)}
+              >
+                {b.label}
+              </button>
+            ))}
+          </div>
+          {cmp && <p className={`compare-line tone-${cmp.tone}`}>{cmp.text}</p>}
+          {cmp && (
+            <p className="hint">Typical figures are modeled from how AirPods batteries age, not live user data.</p>
+          )}
         </div>
         <p className="disclaimer">
           A rough estimate, not a lab reading. Real runtime swings with volume, ANC, temperature, and

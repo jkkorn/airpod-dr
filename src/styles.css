@@ -214,3 +214,8 @@ body {
 .health.tone-good .health-pct { color: var(--good); }
 .health.tone-warn .health-pct { color: var(--warn); }
 .health.tone-bad .health-pct { color: var(--bad); }
+
+.compare-line { margin: 12px 0 0; font-weight: 650; font-size: 0.95rem; }
+.compare-line.tone-good { color: var(--good); }
+.compare-line.tone-warn { color: var(--warn); }
+.compare-line.tone-bad { color: var(--bad); }
