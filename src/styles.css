@@ -41,11 +41,38 @@ body {
   -webkit-text-size-adjust: 100%;
 }
 
+/* Paper grain — barely there, but it makes the surface feel printed. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.045;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
 .app {
+  position: relative;
+  z-index: 1;
   max-width: 520px;
   margin: 0 auto;
   padding: 30px 20px calc(52px + env(safe-area-inset-bottom));
 }
+
+/* Editorial kicker — the magazine voice. */
+.kicker {
+  display: block;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 13px;
+}
+.kicker::before { content: '\2014\00a0\00a0'; }
 
 /* Motion primitives */
 @keyframes rise {
@@ -81,6 +108,10 @@ body {
 .tagline {
   margin: 0; color: var(--muted); font-size: 1.12rem;
   font-family: var(--serif); font-style: italic; font-weight: 400; letter-spacing: 0.005em;
+}
+.masthead::after {
+  content: ''; display: block; width: 34px; height: 2px; border-radius: 2px;
+  background: var(--accent); margin: 22px auto 0; opacity: 0.9;
 }
 
 /* Shared card shell */
@@ -170,9 +201,14 @@ body {
 .tool:nth-child(2) { animation-delay: 0.15s; }
 .tool:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(60, 40, 20, 0.1), 0 26px 50px rgba(60, 40, 20, 0.09); border-color: var(--line-2); }
 .tool:active { transform: translateY(-1px); }
-.tool-emoji { font-size: 1.7rem; }
+.tool-chip {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 48px; height: 48px; border-radius: 14px; margin-bottom: 4px;
+  background: var(--accent-soft); color: var(--accent);
+}
 .tool-title { font-size: 1.2rem; font-weight: 600; letter-spacing: -0.02em; }
 .tool-desc { color: var(--muted); font-size: 0.93rem; }
+.tool .kicker { margin-bottom: 2px; }
 
 /* Battery: model grid */
 .model-grid { display: flex; flex-direction: column; gap: 10px; }
@@ -246,7 +282,7 @@ body {
 .footer a { color: var(--accent); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.2s var(--ease); }
 .footer a:hover { border-bottom-color: var(--accent); }
 
-.tool-icon { width: 32px; height: 32px; color: var(--accent); }
+.tool-icon { width: 26px; height: 26px; color: var(--accent); }
 .model-left { display: flex; align-items: center; gap: 13px; min-width: 0; }
 .model-icon { width: 26px; height: 26px; color: var(--muted); flex: none; }
 

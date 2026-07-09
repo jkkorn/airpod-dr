@@ -32,6 +32,7 @@ export function SweepTest(props: {
     <StepShell
       step={props.step}
       total={props.total}
+      kicker="One last pass"
       title="One smooth sweep per bud"
       subtitle="A rising tone from low to high. Listen for any spot where it vanishes or buzzes. (If you're older, the very top may be quiet to you even on a perfect bud — that's your ears, not the AirPod.)"
       onBack={props.onBack}

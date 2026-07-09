@@ -26,6 +26,7 @@ export function SwapTest(props: {
     <StepShell
       step={props.step}
       total={props.total}
+      kicker="Ears or hardware"
       title="Quick check: is it the bud, or your ears?"
       subtitle="One side seemed off. Physically swap the buds between your ears (left bud into right ear and vice versa), then replay both and notice where the weak/quiet side ends up."
       onBack={props.onBack}

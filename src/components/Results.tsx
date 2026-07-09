@@ -75,6 +75,7 @@ export function Results(props: { answers: Answers; onRestart: () => void }) {
 
   return (
     <section className="shell results">
+      <span className="kicker">The verdict</span>
       <h2 className="title">Your results</h2>
       <p className="overall">{summary.overall}</p>
 

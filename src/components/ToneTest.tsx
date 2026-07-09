@@ -37,6 +37,7 @@ export function ToneTest(props: {
     <StepShell
       step={props.step}
       total={props.total}
+      kicker="Tone by tone"
       title={`How does the ${SIDE[bud]} bud sound, tone by tone?`}
       subtitle={`Each tone plays only in the ${SIDE[bud]} bud. Compare it to how the other side sounded.`}
       onBack={props.onBack}

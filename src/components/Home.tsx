@@ -9,7 +9,10 @@ export function Home(props: { onPick: (tool: Tool) => void }) {
   return (
     <div className="home">
       <button className="tool" onClick={() => props.onPick('survival')}>
-        <AirwaveIcon className="tool-icon" />
+        <span className="tool-chip">
+          <AirwaveIcon className="tool-icon" />
+        </span>
+        <span className="kicker">Listen</span>
         <span className="tool-title">Speaker &amp; mic check</span>
         <span className="tool-desc">
           Play test sounds and find out if a bud is dead, muffled, or mismatched after a drop or a
@@ -18,7 +21,10 @@ export function Home(props: { onPick: (tool: Tool) => void }) {
       </button>
 
       <button className="tool" onClick={() => props.onPick('battery')}>
-        <BatteryIcon className="tool-icon" />
+        <span className="tool-chip">
+          <BatteryIcon className="tool-icon" />
+        </span>
+        <span className="kicker">Measure</span>
         <span className="tool-title">Battery health estimate</span>
         <span className="tool-desc">
           Estimate how much of the original battery life is left. Handy for a tired pair, or before
