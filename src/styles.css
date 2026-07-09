@@ -241,7 +241,14 @@ body {
 .actions { display: flex; gap: 12px; }
 .actions .btn { flex: 1; }
 
-.footer { text-align: center; color: var(--faint); font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.04em; padding: 28px 8px 0; }
+.footer { text-align: center; color: var(--faint); font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.04em; padding: 28px 8px 0; line-height: 1.9; }
+.credit { display: block; margin-top: 4px; }
+.footer a { color: var(--accent); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.2s var(--ease); }
+.footer a:hover { border-bottom-color: var(--accent); }
+
+.tool-icon { width: 32px; height: 32px; color: var(--accent); }
+.model-left { display: flex; align-items: center; gap: 13px; min-width: 0; }
+.model-icon { width: 26px; height: 26px; color: var(--muted); flex: none; }
 
 @media (prefers-reduced-motion: reduce) {
   *, .mark rect { animation: none !important; transition: none !important; }

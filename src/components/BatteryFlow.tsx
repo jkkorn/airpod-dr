@@ -8,6 +8,7 @@ import {
   estimateHealth,
   formatHours,
 } from '../battery/models'
+import { ModelIcon } from './icons'
 
 // A timed full-discharge is the only real signal available (AirPods expose no
 // health to any app, and iOS hides even the live % from web pages). So this is a
@@ -117,7 +118,10 @@ export function BatteryFlow() {
                 setStage('measure')
               }}
             >
-              <span className="model-name">{m.label}</span>
+              <span className="model-left">
+                <ModelIcon variant={m.icon} className="model-icon" />
+                <span className="model-name">{m.label}</span>
+              </span>
               <span className="model-base">~{formatHours(m.baselineHours)} new</span>
             </button>
           ))}

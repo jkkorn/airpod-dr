@@ -8,16 +8,17 @@ export interface AirPodsModel {
   label: string
   baselineHours: number
   condition: string
+  icon: 'classic' | 'pro' | 'max'
 }
 
 export const MODELS: AirPodsModel[] = [
-  { id: 'airpods-2', label: 'AirPods (1st / 2nd gen)', baselineHours: 5, condition: '~50% volume' },
-  { id: 'airpods-3', label: 'AirPods (3rd gen)', baselineHours: 6, condition: '~50% volume' },
-  { id: 'airpods-4', label: 'AirPods 4', baselineHours: 5, condition: '~50% volume, ANC off' },
-  { id: 'airpods-pro-1', label: 'AirPods Pro (1st gen)', baselineHours: 4.5, condition: '~50% volume, ANC on' },
-  { id: 'airpods-pro-2', label: 'AirPods Pro (2nd gen)', baselineHours: 6, condition: '~50% volume, ANC on' },
-  { id: 'airpods-pro-3', label: 'AirPods Pro (3rd gen)', baselineHours: 8, condition: '~50% volume, ANC on' },
-  { id: 'airpods-max', label: 'AirPods Max', baselineHours: 20, condition: '~50% volume, ANC on' },
+  { id: 'airpods-2', label: 'AirPods (1st / 2nd gen)', baselineHours: 5, condition: '~50% volume', icon: 'classic' },
+  { id: 'airpods-3', label: 'AirPods (3rd gen)', baselineHours: 6, condition: '~50% volume', icon: 'classic' },
+  { id: 'airpods-4', label: 'AirPods 4', baselineHours: 5, condition: '~50% volume, ANC off', icon: 'classic' },
+  { id: 'airpods-pro-1', label: 'AirPods Pro (1st gen)', baselineHours: 4.5, condition: '~50% volume, ANC on', icon: 'pro' },
+  { id: 'airpods-pro-2', label: 'AirPods Pro (2nd gen)', baselineHours: 6, condition: '~50% volume, ANC on', icon: 'pro' },
+  { id: 'airpods-pro-3', label: 'AirPods Pro (3rd gen)', baselineHours: 8, condition: '~50% volume, ANC on', icon: 'pro' },
+  { id: 'airpods-max', label: 'AirPods Max', baselineHours: 20, condition: '~50% volume, ANC on', icon: 'max' },
 ]
 
 export type HealthTier = 'healthy' | 'mild' | 'worn' | 'poor'

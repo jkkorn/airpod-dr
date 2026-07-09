@@ -10,14 +10,6 @@ const STATUS_TONE: Record<BudVerdict['status'], string> = {
   silent: 'bad',
 }
 
-const STATUS_EMOJI: Record<BudVerdict['status'], string> = {
-  pass: '✅',
-  weak: '⚠️',
-  rattle: '⚠️',
-  inconclusive: '⚠️',
-  silent: '❌',
-}
-
 function VerdictCard({ v }: { v: BudVerdict }) {
   return (
     <article className={`verdict tone-${STATUS_TONE[v.status]}`}>
@@ -35,9 +27,9 @@ function VerdictCard({ v }: { v: BudVerdict }) {
 }
 
 function buildShareText(s: Summary): string {
-  const line = (v: BudVerdict) => `${STATUS_EMOJI[v.status]} ${v.headline}`
+  const line = (v: BudVerdict) => `- ${v.headline}`
   return [
-    '🎧 AirPod Survival Check',
+    'AirPod Survival Check',
     '',
     s.overall,
     '',
