@@ -104,6 +104,7 @@ export function BatteryFlow() {
   if (stage === 'model') {
     return (
       <section className="shell">
+        <span className="kicker">Battery health</span>
         <h2 className="title">Which AirPods are these?</h2>
         <p className="subtitle">
           We compare your battery life against how long this model lasted when it was new.
@@ -134,6 +135,7 @@ export function BatteryFlow() {
     const running = start !== null
     return (
       <section className="shell">
+        <span className="kicker">Discharge test</span>
         <h2 className="title">Run a discharge test</h2>
         <p className="subtitle">
           There's no shortcut here: the only honest signal is how long they actually last. It takes a
@@ -185,6 +187,7 @@ export function BatteryFlow() {
     const cmp = ageBucket ? compareToTypical(h.pct, ageBucket) : null
     return (
       <section className="shell">
+        <span className="kicker">The estimate</span>
         <h2 className="title">Battery estimate</h2>
         <div className={`health tone-${h.tone}`}>
           <div className="health-pct"><CountUp value={h.pct} /></div>

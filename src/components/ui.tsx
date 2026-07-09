@@ -4,6 +4,7 @@ import { unlock } from '../audio/engine'
 export function StepShell(props: {
   step: number
   total: number
+  kicker?: string
   title: string
   subtitle?: ReactNode
   children: ReactNode
@@ -19,6 +20,7 @@ export function StepShell(props: {
           <span key={i} className={'pip' + (i <= props.step ? ' pip-on' : '')} />
         ))}
       </div>
+      {props.kicker && <span className="kicker">{props.kicker}</span>}
       <h2 className="title">{props.title}</h2>
       {props.subtitle && <p className="subtitle">{props.subtitle}</p>}
       <div className="step-body">{props.children}</div>

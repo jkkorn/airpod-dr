@@ -34,6 +34,7 @@ export function ChannelTest(props: {
     <StepShell
       step={props.step}
       total={props.total}
+      kicker="Is it alive?"
       title="Is each bud alive?"
       subtitle="Play each side and tell me what you heard. Hold each bud near your ear if you're not sure."
       onBack={props.onBack}
