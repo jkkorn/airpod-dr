@@ -183,7 +183,7 @@ export function BatteryFlow() {
       <section className="shell">
         <h2 className="title">Battery estimate</h2>
         <div className={`health tone-${h.tone}`}>
-          <div className="health-pct">{h.pct}%</div>
+          <div className="health-pct"><CountUp value={h.pct} /></div>
           <div className="health-headline">{h.headline}</div>
           <p className="health-detail">{h.detail}</p>
         </div>
@@ -219,4 +219,23 @@ export function BatteryFlow() {
   }
 
   return null
+}
+
+// Counts the battery percentage up from 0 on reveal (easeOutCubic).
+function CountUp({ value }: { value: number }) {
+  const [n, setN] = useState(0)
+  useEffect(() => {
+    let raf = 0
+    const start = performance.now()
+    const dur = 750
+    const tick = (t: number) => {
+      const p = Math.min(1, (t - start) / dur)
+      const eased = 1 - Math.pow(1 - p, 3)
+      setN(Math.round(eased * value))
+      if (p < 1) raf = requestAnimationFrame(tick)
+    }
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
+  }, [value])
+  return <>{n}%</>
 }
