@@ -34,6 +34,12 @@ export default function App() {
 
       <footer className="footer">
         <span>Open source · runs in your browser · no account, no upload, no microphone</span>
+        <span className="credit">
+          Made with love in Brazil by{' '}
+          <a href="https://www.linkedin.com/in/jkkorn" target="_blank" rel="noopener noreferrer">
+            Jonathan Korn
+          </a>
+        </span>
       </footer>
     </main>
   )
