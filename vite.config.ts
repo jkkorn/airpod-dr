@@ -1,3 +1,4 @@
+/// <reference types="vitest/config" />
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
@@ -6,4 +7,9 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   base: './',
+  // Scope tests to the app's own modules; .claude/ carries unrelated tooling
+  // with its own test suites that vitest's default glob would otherwise crawl.
+  test: {
+    include: ['src/**/*.test.{ts,tsx}'],
+  },
 })

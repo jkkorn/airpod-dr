@@ -8,6 +8,7 @@
       name="description"
       content="Check whether your damaged or secondhand AirPods' speakers survived. Runs in your browser, no install, no account, no microphone."
     />
+    <link rel="canonical" href="https://jkkorn.github.io/airpod-dr/" />
     <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -33,9 +34,69 @@
     />
     <meta name="twitter:image" content="https://jkkorn.github.io/airpod-dr/og.png" />
     <title>AirPod Survival Check</title>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebApplication",
+            "name": "AirPod Survival Check",
+            "url": "https://jkkorn.github.io/airpod-dr/",
+            "applicationCategory": "UtilitiesApplication",
+            "operatingSystem": "Any (web browser)",
+            "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+            "description": "Free browser check for damaged or secondhand AirPods: a per-bud listening test and a guided battery health estimate. No install, no account, no microphone."
+          },
+          {
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "My AirPods went through the washing machine. How do I know if they still work?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Dry them for at least 24 hours first, then run a listening test: play tones on each bud separately and compare the two sides. A bud that is silent, weak in the high frequencies, or rattling needs more drying and a mesh clean before you assume hardware damage. This site runs that test in your browser for free."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Can an app read AirPods battery health?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "No. Apple exposes no AirPods battery health, cycle count, or diagnostic data to any app. The only way to estimate battery health is a timed full-discharge test: charge to 100%, play audio until they die, and compare the runtime against the model's as-new baseline."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Is 80% AirPods battery after two years normal?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. AirPods batteries typically fall to around 80% of their original runtime within two to three years of regular use. That is normal wear, not a fault."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How do I check secondhand AirPods before buying?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Test each bud's speaker with per-side tones and a frequency sweep, and estimate the battery with a timed discharge against the model's as-new runtime. Both checks run free in the browser with no app or account."
+                }
+              }
+            ]
+          }
+        ]
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
+    <noscript>
+      <p style="font-family: sans-serif; max-width: 40rem; margin: 4rem auto; padding: 0 1rem">
+        AirPod Survival Check is a free browser tool that tests damaged or secondhand
+        AirPods: a per-bud listening check and a guided battery health estimate.
+        It needs JavaScript to play the test sounds — please enable it and reload.
+      </p>
+    </noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
